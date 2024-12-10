@@ -20,9 +20,12 @@ public class TableBooking implements Serializable {
         this.date = date;
     }
 
-    public int getTableId() {return tableId;}
+    public int getTableId() {
+        return tableId;}
 
-    public LocalDate getDate() {return date;}
+    public LocalDate getDate() {
+        return date;}
 
-    public String getDetails() {return null;}
+    public String getDetails() {
+        return null;}
 }
