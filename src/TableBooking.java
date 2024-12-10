@@ -1,11 +1,17 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class TableBooking {
+public class TableBooking implements Serializable {
     private int tableId, guests;
     private String guestName, guestPhoneNumber, bookedBy;
     private LocalDate date;
 
-    public TableBooking(int tableId, int guests, String guestName, String guestPhoneNumber, String bookedBy, LocalDate date) {
+    public TableBooking(int tableId,
+                        int guests,
+                        String guestName,
+                        String guestPhoneNumber,
+                        String bookedBy,
+                        LocalDate date) {
         this.tableId = tableId;
         this.guests = guests;
         this.guestName = guestName;
