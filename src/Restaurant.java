@@ -1,8 +1,6 @@
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Restaurant {
@@ -19,22 +17,65 @@ public class Restaurant {
 
     public void cancelBooking(int bookingId) {}
 
-    public void bookTable() {}
+    public void bookTable() {
+        LocalDate date;
+        int guests;
 
-    public boolean checkAvailableTable(int guests, LocalDate date) {return false;}
+            while (true) {
+                try {
+                    System.out.println("Which date do you want to book? (YYYY-MM-DD)");
+                    String inputDate = scanner.nextLine();
+                    date = LocalDate.parse(inputDate);
+                    System.out.println("For how many guests?");
+                    guests = scanner.nextInt();
+                    scanner.nextLine();
+                    if (checkTableAvailability(guests, date)) {
+                        break;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error in input, try again.");
+                }
+                System.out.println("Date not available. Try another date (YYYY-MM-DD)");
+            }
+
+        System.out.println("Table available. Enter first name of guest:");
+        String firstName = scanner.nextLine().trim();
+        System.out.println("Enter phone number of guest:");
+        String phoneNumber = scanner.nextLine().trim();
+
+        database.getBookings().add(new TableBooking(1, guests, firstName, phoneNumber, userName, date));
+        System.out.println("Table booked.");
+    }
+
+    public boolean checkTableAvailability(int guests, LocalDate date) {
+        return true;
+    }
 
     public void runProgram() {
         loadData();
         setUserName();
         while (true) {
-            saveAndExit();
+            displayMenu();
+            String input = scanner.nextLine().trim();
 
-
-            //loadData()
-            //displayMenu()
+            switch (input) {
+                case "1" -> {
+                    bookTable();
+                }
+                case "2" -> {
+                    saveAndExit();
+                }
+            }
             //get input - do things
             //display menu()
         }
+    }
+
+    private void displayMenu() {
+        System.out.println("Welcome to the tablebooker©!");
+        System.out.println("Please enter your choice below:");
+        System.out.println("1: Book table");
+        System.out.println("2: Save and exit program");
     }
 
     private void loadData() {
