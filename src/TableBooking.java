@@ -6,6 +6,10 @@ public class TableBooking implements Serializable {
     private String guestName, guestPhoneNumber, bookedBy;
     private LocalDate date;
 
+    public TableBooking(int tableId) {
+        this.tableId = tableId;
+    }
+
     public TableBooking(int tableId,
                         int guests,
                         String guestName,
