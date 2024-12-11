@@ -95,6 +95,9 @@ public class Restaurant {
                 case "3" -> {
                     saveAndExit();
                 }
+                case "4" -> {
+                    addMember();
+                }
             }
         }
     }
@@ -105,6 +108,8 @@ public class Restaurant {
         System.out.println("1: Book table");
         System.out.println("2: Create or update an offer");
         System.out.println("3: Save and exit program");
+
+        System.out.println("4: Add new member to the members club");
     }
 
     private void loadData() {
@@ -119,6 +124,23 @@ public class Restaurant {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void addMember()
+    {
+        String memberName = "";
+        String memberPhoneNumber="";
+        while (memberName.isEmpty() || memberPhoneNumber.isEmpty()) {
+            if (memberName.isEmpty()) {
+                System.out.println("Enter members name: ");
+                memberName = scanner.nextLine().trim();
+            }else
+            {
+                System.out.println("Enter members phone number: ");
+                memberPhoneNumber = scanner.nextLine().trim();
+            }
+        }
+        MembersClub.getInstance().createNewMember(memberName, memberPhoneNumber);
     }
 
     public void setUserName() {
