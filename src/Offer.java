@@ -1,6 +1,4 @@
-import java.io.Serializable;
-
-public class Offer  implements Serializable {
+public class Offer {
     private String title, description;
 
     public Offer(String title, String description) {
@@ -9,7 +7,9 @@ public class Offer  implements Serializable {
     }
 
 
-    public String getDetails() {return null;}
+    public void getDetails() {
+            System.out.println(title + "\n" + description);
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -18,4 +18,5 @@ public class Offer  implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

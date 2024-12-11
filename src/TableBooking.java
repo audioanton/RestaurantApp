@@ -21,11 +21,17 @@ public class TableBooking implements Serializable {
     }
 
     public int getTableId() {
-        return tableId;}
+        return tableId;
+    }
 
     public LocalDate getDate() {
-        return date;}
+        return date;
+    }
 
-    public String getDetails() {
-        return null;}
+    public void getDetails() {
+        System.out.println(guestName);
+        System.out.println(guestPhoneNumber);
+        System.out.println(bookedBy);
+    }
+
 }
