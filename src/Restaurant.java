@@ -62,7 +62,8 @@ public class Restaurant {
                 case "1" -> {
                     bookTable();
                 }
-                case "2" -> {
+                case "2" -> MembersClub.getInstance().createNewOffer();
+                case "3" -> {
                     saveAndExit();
                 }
             }
@@ -75,7 +76,8 @@ public class Restaurant {
         System.out.println("Welcome to the tablebooker©!");
         System.out.println("Please enter your choice below:");
         System.out.println("1: Book table");
-        System.out.println("2: Save and exit program");
+        System.out.println("2: Create or update an offer");
+        System.out.println("3: Save and exit program");
     }
 
     private void loadData() {

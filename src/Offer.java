@@ -6,6 +6,17 @@ public class Offer {
         this.description = description;
     }
 
+
     public void getDetails() {
-        System.out.println(title + "\n" + description);}
+            System.out.println(title + "\n" + description);
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }
