@@ -44,7 +44,7 @@ public class MembersClub {
             System.out.println("Offer updated!");
         }
 
-        System.out.println(currentOffer.getDetails());
+        currentOffer.getDetails();
 
         // Spara erbjudandet till fil
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("offer.ser"))) {
