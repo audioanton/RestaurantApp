@@ -2,17 +2,22 @@ import java.io.Serializable;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MembersClub {
+public class MembersClub implements Serializable{
     //Singleton
     private static MembersClub instance;
 
     private List<Member> members;
     private Offer currentOffer;
 
-    private MembersClub() {}
+    private MembersClub() {
+        if (members == null) {
+            members = new ArrayList<>();
+        }
+    }
 
     public static MembersClub getInstance() {
         if (instance == null)
@@ -44,15 +49,14 @@ public class MembersClub {
             currentOffer.setDescription(description);
             System.out.println("Offer updated!");
         }
+    }
 
+    public void printOfferDetails(){
         currentOffer.getDetails();
+    }
 
-        // Spara erbjudandet till fil
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("offer.ser"))) {
-            oos.writeObject(currentOffer);
-            System.out.println("Offer saved to file!");
-        } catch (IOException e) {
-            System.out.println("Failed to save offer to file.");
-            e.printStackTrace();
-        }
-    }}
+    public List<Member> getMembers()
+    {
+        return members;
+    }
+}
