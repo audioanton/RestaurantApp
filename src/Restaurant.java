@@ -27,6 +27,7 @@ public class Restaurant {
     public void cancelBooking(int bookingId) {}
 
     public void bookTable() {
+        System.out.println(database.getBookings().size());
         LocalDate date;
         int guests;
         int tableId;
@@ -93,6 +94,15 @@ public class Restaurant {
                 }
                 case "2" -> MembersClub.getInstance().createNewOffer();
                 case "3" -> {
+                    MembersClub.getInstance().printOfferDetails();
+                }
+                case "4" -> {
+                    addMember();
+                }
+                case "5" -> {
+                    //kunna se beläggning för dagen
+                }
+                case "6" -> {
                     saveAndExit();
                 }
             }
@@ -104,7 +114,10 @@ public class Restaurant {
         System.out.println("Please enter your choice below:");
         System.out.println("1: Book table");
         System.out.println("2: Create or update an offer");
-        System.out.println("3: Save and exit program");
+        System.out.println("3: Show offer details");
+        System.out.println("4: Add new member to the members club");
+        System.out.println("5: Show bookings");
+        System.out.println("6: Save and exit program");
     }
 
     private void loadData() {
@@ -119,6 +132,25 @@ public class Restaurant {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void addMember()
+    {
+        String memberName = "";
+        String memberPhoneNumber="";
+        while (memberName.isEmpty() || memberPhoneNumber.isEmpty()) {
+            if (memberName.isEmpty()) {
+                System.out.println("Enter member name: ");
+                memberName = scanner.nextLine().trim();
+            }else
+            {
+                System.out.println("Enter member phone number: ");
+                memberPhoneNumber = scanner.nextLine().trim();
+            }
+        }
+        database.getMembersClub().createNewMember(memberName,memberPhoneNumber);
+        //MembersClub.getInstance().createNewMember(memberName, memberPhoneNumber);
+        System.out.println(MembersClub.getInstance().getMembers().size());
     }
 
     public void setUserName() {

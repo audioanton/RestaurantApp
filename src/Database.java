@@ -5,11 +5,13 @@ import java.util.List;
 public class Database implements Serializable {
     private List<Table> tables;
     private List<TableBooking> bookings;
+    private MembersClub membersClub;
 
     public Database() {
         tables = new ArrayList<>();
         bookings = new ArrayList<>();
         initTables();
+        membersClub = MembersClub.getInstance();
     }
 
     public void initTables() {
@@ -35,6 +37,11 @@ public class Database implements Serializable {
 
     public List<TableBooking> getBookings() {
         return bookings;
+    }
+
+    public MembersClub getMembersClub()
+    {
+        return membersClub;
     }
 }
 

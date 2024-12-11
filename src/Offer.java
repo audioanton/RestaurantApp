@@ -1,4 +1,7 @@
-public class Offer {
+import java.io.Serializable;
+
+public class Offer implements Serializable
+{
     private String title, description;
 
     public Offer(String title, String description) {
