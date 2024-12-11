@@ -6,5 +6,7 @@ public class Member {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getDetails() {return null;}
+    public void getDetails() {
+        System.out.println(name);
+        System.out.println(phoneNumber);}
 }

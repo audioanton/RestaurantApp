@@ -24,5 +24,9 @@ public class TableBooking implements Serializable {
 
     public LocalDate getDate() {return date;}
 
-    public String getDetails() {return null;}
+    public void getDetails() {
+        System.out.println(guestName);
+        System.out.println(guestPhoneNumber);
+        System.out.println(bookedBy);}
+
 }
