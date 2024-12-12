@@ -38,4 +38,7 @@ public class TableBooking implements Serializable {
         System.out.println(bookedBy);
     }
 
+    public String printBooking() {
+        return "Table " + tableId + ": " + "\t" + guestName + ", " + guests + " guests, " + guestPhoneNumber;
+    }
 }
