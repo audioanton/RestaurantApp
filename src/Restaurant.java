@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -204,6 +206,21 @@ public class Restaurant {
 
     public void printBookingsThisDate (LocalDate requestedDate) {
         boolean foundBookings = false;
+
+        for (Table table : database.getTables()) {
+            for (TableBooking booking : database.getBookings()) {
+                if (table.tableId() == booking.getTableId()) {
+                    if (booking.getDate().equals(requestedDate)) {
+                        System.out.println(booking.printBooking());
+                        foundBookings = true;
+                    } else {
+                        System.out.println(table.tableId());
+                    }
+                }
+            }
+        }
+
+        /*Wokring method
         for (TableBooking booking : database.getBookings()) {
             if (booking.getDate().equals(requestedDate)) {
                 System.out.println(booking.printBooking());
@@ -213,6 +230,8 @@ public class Restaurant {
         if (!foundBookings) {
             System.out.println("No bookings for this date");
         }
+
+         */
 
         /*for (TableBooking booking : database.getBookings()) {
             if (booking.getDate().equals(requestedDate)) {
