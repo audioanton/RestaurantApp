@@ -114,7 +114,7 @@ public class Restaurant {
                     addMember();
                 }
                 case "5" -> {
-                    //kunna se beläggning för dagen
+                    getBookingOverview();
                 }
                 case "6" -> {
                     cancelBooking();
@@ -172,6 +172,55 @@ public class Restaurant {
         //System.out.println(database.getMembersClub());
         System.out.println(database.getMembersClub().getMembers().size());
         //System.out.println(MembersClub.getInstance().getMembers().size());
+    }
+
+    public void getBookingOverview() {
+
+        System.out.println("For what period?");
+        System.out.println("1: Today");
+        System.out.println("2: Next 7 days");
+        System.out.println("3: Next 30 days");
+        int userInput = scanner.nextInt();
+        scanner.nextLine();
+
+        if (userInput == 1) {
+            System.out.println(LocalDate.now());
+            printBookingsThisDate(LocalDate.now());
+        } else if (userInput == 2) {
+            for (int i = 0; i < 7; i++) {
+                LocalDate requestedDate = LocalDate.now().plusDays(i);
+                System.out.println(requestedDate);
+                printBookingsThisDate(requestedDate);
+                System.out.println("————————————————————————————————————————————");
+            }
+        } else if (userInput == 3) {
+            for (int i = 0; i < 30; i++) {
+                System.out.println(LocalDate.now().plusDays(i));
+                printBookingsThisDate(LocalDate.now().plusDays(i));
+                System.out.println("————————————————————————————————————————————");
+            }
+        }
+    }
+
+    public void printBookingsThisDate (LocalDate requestedDate) {
+        boolean foundBookings = false;
+        for (TableBooking booking : database.getBookings()) {
+            if (booking.getDate().equals(requestedDate)) {
+                System.out.println(booking.printBooking());
+                foundBookings = true;
+            }
+        }
+        if (!foundBookings) {
+            System.out.println("No bookings for this date");
+        }
+
+        /*for (TableBooking booking : database.getBookings()) {
+            if (booking.getDate().equals(requestedDate)) {
+                System.out.println(booking.printBooking());
+            } else {
+                System.out.println("-");
+            }
+        }*/
     }
 
     public void setUserName() {
