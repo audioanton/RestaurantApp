@@ -3,6 +3,7 @@ import org.w3c.dom.ls.LSOutput;
 import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -101,6 +102,7 @@ public class Restaurant {
         loadData();
         setUserName();
         while (true) {
+            System.out.println();
             displayMenu();
             String input = scanner.nextLine().trim();
 
@@ -129,7 +131,7 @@ public class Restaurant {
     }
 
     private void displayMenu() {
-        System.out.println("Welcome to the tablebooker©!");
+        System.out.println("---Restaurant manager© main menu---");
         System.out.println("Please enter your choice below:");
         System.out.println("1: Book table");
         System.out.println("2: Create or update an offer");
@@ -177,7 +179,6 @@ public class Restaurant {
     }
 
     public void getBookingOverview() {
-
         System.out.println("For what period?");
         System.out.println("1: Today");
         System.out.println("2: Next 7 days");
@@ -186,126 +187,49 @@ public class Restaurant {
         scanner.nextLine();
 
         if (userInput == 1) {
-            System.out.println(LocalDate.now());
+            System.out.println(dateFormatter(LocalDate.now()));
             printBookingsThisDate(LocalDate.now());
         } else if (userInput == 2) {
             for (int i = 0; i < 7; i++) {
                 LocalDate requestedDate = LocalDate.now().plusDays(i);
-                System.out.println(requestedDate);
-                printBookingsThisDate(requestedDate);
-                System.out.println("————————————————————————————————————————————");
+                if (!requestedDate.getDayOfWeek().name().equals("MONDAY")) {
+                    System.out.println(dateFormatter(requestedDate));
+                    printBookingsThisDate(requestedDate);
+                    System.out.println("————————————————————————————————————————————");
+                }
             }
         } else if (userInput == 3) {
             for (int i = 0; i < 30; i++) {
-                System.out.println(LocalDate.now().plusDays(i));
-                printBookingsThisDate(LocalDate.now().plusDays(i));
-                System.out.println("————————————————————————————————————————————");
-            }
-        }
-    }
-
-    public void printBookingsThisDate (LocalDate requestedDate) {
-        boolean foundBookings = false;
-
-        for (Table table : database.getTables()) {
-            for (TableBooking booking : database.getBookings()) {
-                if (table.tableId() == booking.getTableId()) {
-                    if (booking.getDate().equals(requestedDate)) {
-                        System.out.println(booking.printBooking());
-                        foundBookings = true;
-                    } else {
-                        System.out.println(table.tableId());
-                    }
-                }
-            }
-        }
-
-        /*Wokring method
-        for (TableBooking booking : database.getBookings()) {
-            if (booking.getDate().equals(requestedDate)) {
-                System.out.println(booking.printBooking());
-                foundBookings = true;
-            }
-        }
-        if (!foundBookings) {
-            System.out.println("No bookings for this date");
-        }
-
-         */
-
-        /*for (TableBooking booking : database.getBookings()) {
-            if (booking.getDate().equals(requestedDate)) {
-                System.out.println(booking.printBooking());
-            } else {
-                System.out.println("-");
-            }
-        }*/
-    }
-
-    public void getBookingOverview() {
-
-        System.out.println("For what period?");
-        System.out.println("1: Today");
-        System.out.println("2: Next 7 days");
-        System.out.println("3: Next 30 days");
-        int userInput = scanner.nextInt();
-        scanner.nextLine();
-
-        if (userInput == 1) {
-            System.out.println(LocalDate.now());
-            printBookingsThisDate(LocalDate.now());
-        } else if (userInput == 2) {
-            for (int i = 0; i < 7; i++) {
                 LocalDate requestedDate = LocalDate.now().plusDays(i);
-                System.out.println(requestedDate);
-                printBookingsThisDate(requestedDate);
-                System.out.println("————————————————————————————————————————————");
-            }
-        } else if (userInput == 3) {
-            for (int i = 0; i < 30; i++) {
-                System.out.println(LocalDate.now().plusDays(i));
-                printBookingsThisDate(LocalDate.now().plusDays(i));
-                System.out.println("————————————————————————————————————————————");
+                if (!requestedDate.getDayOfWeek().name().equals("MONDAY")) {
+                    System.out.println(dateFormatter(requestedDate));
+                    printBookingsThisDate(requestedDate);
+                    System.out.println("————————————————————————————————————————————");
+                }
             }
         }
     }
 
-    public void printBookingsThisDate (LocalDate requestedDate) {
-        boolean foundBookings = false;
-
+    public void printBookingsThisDate(LocalDate requestedDate) {
         for (Table table : database.getTables()) {
+            boolean tableHasBooking = false;
+
             for (TableBooking booking : database.getBookings()) {
-                if (table.tableId() == booking.getTableId()) {
-                    if (booking.getDate().equals(requestedDate)) {
-                        System.out.println(booking.printBooking());
-                        foundBookings = true;
-                    } else {
-                        System.out.println(table.tableId());
-                    }
+                if (booking.getTableId() == table.tableId() &&
+                        booking.getDate().equals(requestedDate)) {
+                    System.out.println(booking.printBooking());
+                    tableHasBooking = true;
+                    break;
                 }
             }
-        }
-
-        /*Wokring method
-        for (TableBooking booking : database.getBookings()) {
-            if (booking.getDate().equals(requestedDate)) {
-                System.out.println(booking.printBooking());
-                foundBookings = true;
+            if (!tableHasBooking) {
+                System.out.println("Table " + table.tableId() + ":");
             }
         }
-        if (!foundBookings) {
-            System.out.println("No bookings for this date");
-        }
+    }
 
-         */
-
-        /*for (TableBooking booking : database.getBookings()) {
-            if (booking.getDate().equals(requestedDate)) {
-                System.out.println(booking.printBooking());
-            } else {
-                System.out.println("-");
-            }
-        }*/
+    public String dateFormatter(LocalDate inputDate) {
+        return inputDate.format(DateTimeFormatter.ofPattern("EEEE, MMMM d"));
     }
 
     public void setUserName() {

@@ -45,7 +45,7 @@ public class TableBooking implements Serializable, Comparable<TableBooking> {
     }
 
     public String printBooking() {
-        return "Table " + tableId + ": " + "\t" + guestName + ", " + guests + " guests, " + guestPhoneNumber;
+        return "Table " + tableId + ": " + "\t" + guestName + ", " + guests + " guests, " + "phone: " + guestPhoneNumber;
     }
 
     @Override

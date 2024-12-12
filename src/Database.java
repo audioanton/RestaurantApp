@@ -23,7 +23,11 @@ public class Database implements Serializable {
 
     public void initTables() {
         tables = new ArrayList<>();
-        int id = 0;
+        int id = 1;
+        tables.add(new Table(2, id++));
+        tables.add(new Table(2, id++));
+        tables.add(new Table(2, id++));
+
         tables.add(new Table(4, id++));
         tables.add(new Table(4, id++));
         tables.add(new Table(4, id++));
@@ -32,10 +36,6 @@ public class Database implements Serializable {
         tables.add(new Table(6, id++));
 
         tables.add(new Table(10, id++));
-
-        tables.add(new Table(2, id++));
-        tables.add(new Table(2, id++));
-        tables.add(new Table(2, id++));
 
         Collections.sort(tables);
     }
