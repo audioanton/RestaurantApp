@@ -1,13 +1,13 @@
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class TableBooking implements Serializable {
-    private int tableId, guests;
+public class TableBooking implements Serializable, Comparable<TableBooking> {
+    private int tableId, guests, bookingId;
     private String guestName, guestPhoneNumber, bookedBy;
     private LocalDate date;
 
-    public TableBooking(int tableId) {
-        this.tableId = tableId;
+    public TableBooking(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public TableBooking(int tableId,
@@ -15,13 +15,19 @@ public class TableBooking implements Serializable {
                         String guestName,
                         String guestPhoneNumber,
                         String bookedBy,
-                        LocalDate date) {
+                        LocalDate date,
+                        int bookingId) {
         this.tableId = tableId;
         this.guests = guests;
         this.guestName = guestName;
         this.guestPhoneNumber = guestPhoneNumber;
         this.bookedBy = bookedBy;
         this.date = date;
+        this.bookingId = bookingId;
+    }
+
+    public int getBookingId() {
+        return bookingId;
     }
 
     public int getTableId() {
@@ -38,4 +44,11 @@ public class TableBooking implements Serializable {
         System.out.println(bookedBy);
     }
 
+    @Override
+    public int compareTo(TableBooking o) {
+        if (this.getTableId() < o.getTableId()) {
+            return -1;
+        } else
+            return 1;
+    }
 }
