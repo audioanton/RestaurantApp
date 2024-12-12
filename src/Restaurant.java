@@ -12,7 +12,6 @@ public class Restaurant {
     public Restaurant() {
         scanner = new Scanner (System.in);
         database = new Database();
-        database.initTables();
     }
 
     public void validateBookingDate(LocalDate date) {
@@ -24,7 +23,22 @@ public class Restaurant {
             throw new IllegalArgumentException("A table can be booked maximum 30 days in advance.");
         }
 
-    public void cancelBooking(int bookingId) {}
+    public void cancelBooking() {
+        for (TableBooking booking : database.getBookings()) {
+            System.out.println(booking.getBookingId());
+        }
+
+        System.out.println("Please enter bookingId");
+        int bookingId = scanner.nextInt();
+        Collections.sort(database.getBookings());
+        int index = Collections.binarySearch(database.getBookings(), new TableBooking(bookingId), Comparator.comparing(TableBooking::getBookingId));
+        if (index >= 0) {
+            database.getBookings().remove(index);
+            System.out.println("Booking " + bookingId + " cancelled.");
+        }
+        else
+            System.out.println("Booking id " + bookingId + " not found.");
+    }
 
     public void bookTable() {
         System.out.println(database.getBookings().size());
@@ -60,7 +74,7 @@ public class Restaurant {
         System.out.println("Enter phone number of guest:");
         String phoneNumber = scanner.nextLine().trim();
 
-        database.getBookings().add(new TableBooking(tableId, guests, firstName, phoneNumber, userName, date));
+        database.getBookings().add(new TableBooking(tableId, guests, firstName, phoneNumber, userName, date, database.getNextBookingId()));
         System.out.println("Table booked.");
     }
 
@@ -103,6 +117,9 @@ public class Restaurant {
                     //kunna se beläggning för dagen
                 }
                 case "6" -> {
+                    cancelBooking();
+                }
+                case "7" -> {
                     saveAndExit();
                 }
             }
@@ -117,7 +134,8 @@ public class Restaurant {
         System.out.println("3: Show offer details");
         System.out.println("4: Add new member to the members club");
         System.out.println("5: Show bookings");
-        System.out.println("6: Save and exit program");
+        System.out.println("6: Cancel booking");
+        System.out.println("7: Save and exit program");
     }
 
     private void loadData() {
@@ -150,7 +168,10 @@ public class Restaurant {
         }
         database.getMembersClub().createNewMember(memberName,memberPhoneNumber);
         //MembersClub.getInstance().createNewMember(memberName, memberPhoneNumber);
-        System.out.println(MembersClub.getInstance().getMembers().size());
+        //System.out.println(MembersClub.getInstance());
+        //System.out.println(database.getMembersClub());
+        System.out.println(database.getMembersClub().getMembers().size());
+        //System.out.println(MembersClub.getInstance().getMembers().size());
     }
 
     public void setUserName() {

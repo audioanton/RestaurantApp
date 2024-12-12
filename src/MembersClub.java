@@ -13,10 +13,14 @@ public class MembersClub implements Serializable{
     private List<Member> members;
     private Offer currentOffer;
 
-    private MembersClub() {
-        if (members == null) {
-            members = new ArrayList<>();
-        }
+    public MembersClub() {
+        //if (members == null) {
+            //members = new ArrayList<>();
+        //}
+    }
+
+    public MembersClub readResolve() {
+        return instance;
     }
 
     public static MembersClub getInstance() {
@@ -28,7 +32,9 @@ public class MembersClub implements Serializable{
     public void communicateToAllMembers(String message) {}
 
     public void createNewMember(String name, String phonenumber) {
-
+        if (members == null) {
+            members = new ArrayList<>();
+        }
         members.add(new Member(name, phonenumber));
     }
 

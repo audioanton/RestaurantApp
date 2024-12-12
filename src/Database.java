@@ -1,17 +1,24 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Database implements Serializable {
+    private int sumBookings;
     private List<Table> tables;
     private List<TableBooking> bookings;
     private MembersClub membersClub;
 
     public Database() {
+        sumBookings = 0;
         tables = new ArrayList<>();
         bookings = new ArrayList<>();
         initTables();
         membersClub = MembersClub.getInstance();
+    }
+
+    public int getNextBookingId() {
+        return ++sumBookings;
     }
 
     public void initTables() {
@@ -29,6 +36,8 @@ public class Database implements Serializable {
         tables.add(new Table(2, id++));
         tables.add(new Table(2, id++));
         tables.add(new Table(2, id++));
+
+        Collections.sort(tables);
     }
 
     public List<Table> getTables() {
