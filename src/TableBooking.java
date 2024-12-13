@@ -44,6 +44,10 @@ public class TableBooking implements Serializable, Comparable<TableBooking> {
         System.out.println(bookedBy);
     }
 
+    public String printBooking() {
+        return "Table " + tableId + ": " + "\t" + guestName + ", " + guests + " guests, " + "phone: " + guestPhoneNumber;
+    }
+
     @Override
     public int compareTo(TableBooking o) {
         if (this.getTableId() < o.getTableId()) {

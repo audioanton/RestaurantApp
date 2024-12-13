@@ -1,6 +1,9 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -99,6 +102,7 @@ public class Restaurant {
         loadData();
         setUserName();
         while (true) {
+            System.out.println();
             displayMenu();
             String input = scanner.nextLine().trim();
 
@@ -114,7 +118,7 @@ public class Restaurant {
                     addMember();
                 }
                 case "5" -> {
-                    //kunna se beläggning för dagen
+                    getBookingOverview();
                 }
                 case "6" -> {
                     cancelBooking();
@@ -127,7 +131,7 @@ public class Restaurant {
     }
 
     private void displayMenu() {
-        System.out.println("Welcome to the tablebooker©!");
+        System.out.println("---Restaurant manager© main menu---");
         System.out.println("Please enter your choice below:");
         System.out.println("1: Book table");
         System.out.println("2: Create or update an offer");
@@ -172,6 +176,60 @@ public class Restaurant {
         //System.out.println(database.getMembersClub());
         System.out.println(database.getMembersClub().getMembers().size());
         //System.out.println(MembersClub.getInstance().getMembers().size());
+    }
+
+    public void getBookingOverview() {
+        System.out.println("For what period?");
+        System.out.println("1: Today");
+        System.out.println("2: Next 7 days");
+        System.out.println("3: Next 30 days");
+        int userInput = scanner.nextInt();
+        scanner.nextLine();
+
+        if (userInput == 1) {
+            System.out.println(dateFormatter(LocalDate.now()));
+            printBookingsThisDate(LocalDate.now());
+        } else if (userInput == 2) {
+            for (int i = 0; i < 7; i++) {
+                LocalDate requestedDate = LocalDate.now().plusDays(i);
+                if (!requestedDate.getDayOfWeek().name().equals("MONDAY")) {
+                    System.out.println(dateFormatter(requestedDate));
+                    printBookingsThisDate(requestedDate);
+                    System.out.println("————————————————————————————————————————————");
+                }
+            }
+        } else if (userInput == 3) {
+            for (int i = 0; i < 30; i++) {
+                LocalDate requestedDate = LocalDate.now().plusDays(i);
+                if (!requestedDate.getDayOfWeek().name().equals("MONDAY")) {
+                    System.out.println(dateFormatter(requestedDate));
+                    printBookingsThisDate(requestedDate);
+                    System.out.println("————————————————————————————————————————————");
+                }
+            }
+        }
+    }
+
+    public void printBookingsThisDate(LocalDate requestedDate) {
+        for (Table table : database.getTables()) {
+            boolean tableHasBooking = false;
+
+            for (TableBooking booking : database.getBookings()) {
+                if (booking.getTableId() == table.tableId() &&
+                        booking.getDate().equals(requestedDate)) {
+                    System.out.println(booking.printBooking());
+                    tableHasBooking = true;
+                    break;
+                }
+            }
+            if (!tableHasBooking) {
+                System.out.println("Table " + table.tableId() + ":");
+            }
+        }
+    }
+
+    public String dateFormatter(LocalDate inputDate) {
+        return inputDate.format(DateTimeFormatter.ofPattern("EEEE, MMMM d"));
     }
 
     public void setUserName() {
