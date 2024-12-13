@@ -1,5 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -80,36 +78,72 @@ public class Restaurant {
 
     public int checkTableAvailability(int guests, LocalDate date) {
         for (Table table : database.getTables()) {
-            if (table.chairs() < guests)
+            if (table.getChairs() < guests)
                 continue;
             boolean available = true;
             for (TableBooking booking : database.getBookings()) {
-                if (booking.getDate().equals(date) && booking.getTableId() == table.tableId()) {
+                if (booking.getDate().equals(date) && booking.getTableId() == table.getTableID()) {
                     available = false;
                     break;
                 }
             }
             if (available)
-                return table.tableId();
+                return table.getTableID();
         }
         return -1;
     }
 
+    public void initTables() {
+        if(database.getTables().isEmpty()) {
+            TableFactory factory = new TableFactory();
+            List<Table> tables = new ArrayList<>();
+
+            tables.add(factory.getTable(1));
+            tables.add(factory.getTable(1));
+            tables.add(factory.getTable(1));
+
+            tables.add(factory.getTable(2));
+            tables.add(factory.getTable(2));
+            tables.add(factory.getTable(2));
+
+            tables.add(factory.getTable(3));
+            tables.add(factory.getTable(3));
+            tables.add(factory.getTable(3));
+
+            Collections.sort(tables);
+            database.getTables().addAll(tables);
+        }
+    }
+
     public void runProgram() {
         loadData();
+        initTables();
         setUserName();
         while (true) {
             System.out.println();
             displayMenu();
             String input = scanner.nextLine().trim();
+
             switch (input) {
-                case "1" -> bookTable();
-                case "2" -> MembersClub.getInstance().createNewOffer();
-                case "3" -> MembersClub.getInstance().printOfferDetails();
-                case "4" -> addMember();
-                case "5" -> getBookingOverview();
-                case "6" -> cancelBooking();
-                case "7" -> saveAndExit();
+                case "1" -> {
+                    bookTable();
+                }
+                case "2" -> database.getMembersClub().createNewOffer();
+                case "3" -> {
+                    database.getMembersClub().printOfferDetails();
+                }
+                case "4" -> {
+                    addMember();
+                }
+                case "5" -> {
+                    getBookingOverview();
+                }
+                case "6" -> {
+                    cancelBooking();
+                }
+                case "7" -> {
+                    saveAndExit();
+                }
             }
             System.out.print("\nPress enter to return to the main menu.");
             scanner.nextLine();
@@ -196,7 +230,7 @@ public class Restaurant {
             boolean tableHasBooking = false;
 
             for (TableBooking booking : database.getBookings()) {
-                if (booking.getTableId() == table.tableId() &&
+                if (booking.getTableId() == table.getTableID() &&
                         booking.getDate().equals(requestedDate)) {
                     System.out.println(booking.printBooking());
                     tableHasBooking = true;
@@ -204,7 +238,7 @@ public class Restaurant {
                 }
             }
             if (!tableHasBooking) {
-                System.out.println("Table " + table.tableId() + ":");
+                System.out.println("Table " + table.getTableID() + ":");
             }
         }
     }

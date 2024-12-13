@@ -1,33 +1,12 @@
 import java.io.Serializable;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class MembersClub implements Serializable{
-    //Singleton
-    private static MembersClub instance;
 
     private List<Member> members;
     private Offer currentOffer;
-
-    public MembersClub() {
-        //if (members == null) {
-            //members = new ArrayList<>();
-        //}
-    }
-
-    public MembersClub readResolve() {
-        return instance;
-    }
-
-    public static MembersClub getInstance() {
-        if (instance == null)
-            instance = new MembersClub();
-        return instance;
-    }
 
     public void communicateToAllMembers(String message) {}
 
