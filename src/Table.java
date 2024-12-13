@@ -1,10 +1,10 @@
 import java.io.Serializable;
 
-public record Table(int chairs, int tableId) implements Serializable, Comparable<Table> {
+public interface Table extends Comparable<Table>, Serializable {
 
-    @Override
-    public int compareTo(Table o) {
-        if (this.chairs < o.chairs) return -1;
-        else return 1;
-    }
+    int getTableID ();
+    int getChairs();
+
+    int compareTo(Table o);
 }
+
