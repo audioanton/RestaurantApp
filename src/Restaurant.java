@@ -77,6 +77,7 @@ public class Restaurant {
     }
 
     public int checkTableAvailability(int guests, LocalDate date) {
+        System.out.println(database.getTables().size());
         for (Table table : database.getTables()) {
             if (table.getChairs() < guests)
                 continue;
