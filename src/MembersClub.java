@@ -46,7 +46,6 @@ public class MembersClub implements Serializable{
 
         System.out.println("Enter the description of the offer:");
         String description = scanner.nextLine().trim();
-//Kontrollerar om ett erbjudande redan finns
         if (currentOffer == null) {
             currentOffer = new Offer(title, description);
             System.out.println("New offer created!");
@@ -57,8 +56,11 @@ public class MembersClub implements Serializable{
         }
     }
 
-    public void printOfferDetails(){
-        currentOffer.getDetails();
+    public void printOfferDetails() {
+        if (currentOffer != null) {
+            currentOffer.getDetails();
+        }
+        System.out.println("There is no current offer");
     }
 
     public List<Member> getMembers()

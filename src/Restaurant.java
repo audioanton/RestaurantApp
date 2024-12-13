@@ -27,12 +27,9 @@ public class Restaurant {
         }
 
     public void cancelBooking() {
-        for (TableBooking booking : database.getBookings()) {
-            System.out.println(booking.getBookingId());
-        }
-
         System.out.println("Please enter bookingId");
         int bookingId = scanner.nextInt();
+        scanner.nextLine();
         Collections.sort(database.getBookings());
         int index = Collections.binarySearch(database.getBookings(), new TableBooking(bookingId), Comparator.comparing(TableBooking::getBookingId));
         if (index >= 0) {
@@ -105,28 +102,17 @@ public class Restaurant {
             System.out.println();
             displayMenu();
             String input = scanner.nextLine().trim();
-
             switch (input) {
-                case "1" -> {
-                    bookTable();
-                }
+                case "1" -> bookTable();
                 case "2" -> MembersClub.getInstance().createNewOffer();
-                case "3" -> {
-                    MembersClub.getInstance().printOfferDetails();
-                }
-                case "4" -> {
-                    addMember();
-                }
-                case "5" -> {
-                    getBookingOverview();
-                }
-                case "6" -> {
-                    cancelBooking();
-                }
-                case "7" -> {
-                    saveAndExit();
-                }
+                case "3" -> MembersClub.getInstance().printOfferDetails();
+                case "4" -> addMember();
+                case "5" -> getBookingOverview();
+                case "6" -> cancelBooking();
+                case "7" -> saveAndExit();
             }
+            System.out.print("\nPress enter to return to the main menu.");
+            scanner.nextLine();
         }
     }
 
@@ -171,11 +157,6 @@ public class Restaurant {
             }
         }
         database.getMembersClub().createNewMember(memberName,memberPhoneNumber);
-        //MembersClub.getInstance().createNewMember(memberName, memberPhoneNumber);
-        //System.out.println(MembersClub.getInstance());
-        //System.out.println(database.getMembersClub());
-        System.out.println(database.getMembersClub().getMembers().size());
-        //System.out.println(MembersClub.getInstance().getMembers().size());
     }
 
     public void getBookingOverview() {
