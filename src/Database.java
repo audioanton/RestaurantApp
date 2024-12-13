@@ -13,32 +13,13 @@ public class Database implements Serializable {
         sumBookings = 0;
         tables = new ArrayList<>();
         bookings = new ArrayList<>();
-        initTables();
-        membersClub = MembersClub.getInstance();
+        membersClub = new MembersClub();
     }
 
     public int getNextBookingId() {
         return ++sumBookings;
     }
 
-    public void initTables() {
-        tables = new ArrayList<>();
-        int id = 1;
-        tables.add(new Table(2, id++));
-        tables.add(new Table(2, id++));
-        tables.add(new Table(2, id++));
-
-        tables.add(new Table(4, id++));
-        tables.add(new Table(4, id++));
-        tables.add(new Table(4, id++));
-
-        tables.add(new Table(6, id++));
-        tables.add(new Table(6, id++));
-
-        tables.add(new Table(10, id++));
-
-        Collections.sort(tables);
-    }
 
     public List<Table> getTables() {
         return tables;
