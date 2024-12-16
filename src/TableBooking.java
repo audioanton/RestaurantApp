@@ -38,14 +38,8 @@ public class TableBooking implements Serializable, Comparable<TableBooking> {
         return date;
     }
 
-    public void getDetails() {
-        System.out.println(guestName);
-        System.out.println(guestPhoneNumber);
-        System.out.println(bookedBy);
-    }
-
     public String printBooking() {
-        return "Table " + tableId + ": " + "\t" + guestName + ", " + guests + " guests, " + "phone: " + guestPhoneNumber;
+        return "Table " + tableId + ":\t Booking Id: " + bookingId + ", " + guestName + ", " + guests + " guests, phone: " + guestPhoneNumber;
     }
 
     @Override

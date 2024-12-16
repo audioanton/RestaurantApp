@@ -39,9 +39,8 @@ public class Restaurant {
     }
 
     public void bookTable() {
-        System.out.println(database.getBookings().size());
         LocalDate date;
-        int guests;
+        int guests = 0;
         int tableId;
 
             while (true) {
@@ -50,8 +49,13 @@ public class Restaurant {
                     String inputDate = scanner.nextLine();
                     date = LocalDate.parse(inputDate);
                     validateBookingDate(date);
-                    System.out.println("For how many guests?");
-                    guests = scanner.nextInt();
+                    while (guests < 1 || guests > 8) {
+                        System.out.println("For how many guests?");
+                        guests = scanner.nextInt();
+                        if (guests > 8) {
+                            System.out.println("Maximum number of guests is 8.");
+                        }
+                    }
                     scanner.nextLine();
                     tableId = checkTableAvailability(guests, date);
                     if (tableId > -1)
@@ -77,7 +81,6 @@ public class Restaurant {
     }
 
     public int checkTableAvailability(int guests, LocalDate date) {
-        System.out.println(database.getTables().size());
         for (Table table : database.getTables()) {
             if (table.getChairs() < guests)
                 continue;
@@ -126,25 +129,14 @@ public class Restaurant {
             String input = scanner.nextLine().trim();
 
             switch (input) {
-                case "1" -> {
-                    bookTable();
-                }
+                case "1" -> bookTable();
                 case "2" -> database.getMembersClub().createNewOffer();
-                case "3" -> {
-                    database.getMembersClub().printOfferDetails();
-                }
-                case "4" -> {
-                    addMember();
-                }
-                case "5" -> {
-                    getBookingOverview();
-                }
-                case "6" -> {
-                    cancelBooking();
-                }
-                case "7" -> {
-                    saveAndExit();
-                }
+                case "3" -> database.getMembersClub().printOfferDetails();
+                case "4" -> addMember();
+                case "5" -> getBookingOverview();
+                case "6" -> cancelBooking();
+                case "7" -> saveAndExit();
+                default -> System.out.println("No such menu option.");
             }
             System.out.print("\nPress enter to return to the main menu.");
             scanner.nextLine();
@@ -192,6 +184,7 @@ public class Restaurant {
             }
         }
         database.getMembersClub().createNewMember(memberName,memberPhoneNumber);
+        System.out.println("Member added.");
     }
 
     public void getBookingOverview() {
@@ -200,7 +193,6 @@ public class Restaurant {
         System.out.println("2: Next 7 days");
         System.out.println("3: Next 30 days");
         int userInput = scanner.nextInt();
-        scanner.nextLine();
 
         if (userInput == 1) {
             System.out.println(dateFormatter(LocalDate.now()));
@@ -224,6 +216,7 @@ public class Restaurant {
                 }
             }
         }
+        scanner.nextLine();
     }
 
     public void printBookingsThisDate(LocalDate requestedDate) {

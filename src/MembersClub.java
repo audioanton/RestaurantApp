@@ -8,8 +8,6 @@ public class MembersClub implements Serializable{
     private List<Member> members;
     private Offer currentOffer;
 
-    public void communicateToAllMembers(String message) {}
-
     public void createNewMember(String name, String phonenumber) {
         if (members == null) {
             members = new ArrayList<>();
@@ -38,12 +36,8 @@ public class MembersClub implements Serializable{
     public void printOfferDetails() {
         if (currentOffer != null) {
             currentOffer.getDetails();
+        } else {
+            System.out.println("There is no current offer");
         }
-        System.out.println("There is no current offer");
-    }
-
-    public List<Member> getMembers()
-    {
-        return members;
     }
 }
