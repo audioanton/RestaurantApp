@@ -1,6 +1,5 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Database implements Serializable {
@@ -19,7 +18,6 @@ public class Database implements Serializable {
     public int getNextBookingId() {
         return ++sumBookings;
     }
-
 
     public List<Table> getTables() {
         return tables;
